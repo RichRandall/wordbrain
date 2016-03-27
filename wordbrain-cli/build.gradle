@@ -1,0 +1,27 @@
+group 'ndall'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+mainClassName = 'uk.co.ndall.wordbrain_cli.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile project(':wordbrain-lib')
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'uk.co.ndall.wordbrain_cli.Main')
+    }
+}
+
+run {
+    standardInput = System.in
+}
