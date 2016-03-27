@@ -1,0 +1,4 @@
+rootProject.name = 'wordbrain'
+include 'wordbrain-cli'
+include 'wordbrain-lib'
+
