@@ -33,7 +33,7 @@ public class WordTrie extends TrieNode<Character> implements Dictionary {
 	 */
 	public WordTrie(Iterable<String> words) {
 		this();
-		words.forEach(this::put);
+		words.forEach(s -> this.put(s.toLowerCase()));
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class WordTrie extends TrieNode<Character> implements Dictionary {
 	 */
 	public WordTrie(Stream<String> words) {
 		this();
-		words.forEach(this::put);
+		words.forEach(s -> this.put(s.toLowerCase()));
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package uk.co.ndall.wordbrain;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.ndall.wordgames.Coords2D;
@@ -152,16 +153,14 @@ public class WordbrainBoardTest {
 	}
 
 	/**
-	 * Tests that boards must be square to be valid.
-	 *
-	 * @throws Exception
+	 * Tests that non-square rectangles are valid
 	 */
 	@Test
-	public void nonSquareBoardIsInvalid() throws Exception {
+	public void nonSquareBoardIsValid()  {
 		WordbrainBoard fat = new WordbrainBoard("abcd,efgh,ijkl");
 		WordbrainBoard tall = new WordbrainBoard("abc,def,ghi,jkl");
-		assertFalse(fat.isValid());
-		assertFalse(tall.isValid());
+		assertTrue(fat.isValid());
+		assertTrue(tall.isValid());
 	}
 
 	/**

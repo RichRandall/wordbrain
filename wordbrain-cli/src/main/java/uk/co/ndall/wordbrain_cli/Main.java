@@ -3,20 +3,21 @@ package uk.co.ndall.wordbrain_cli;
 import uk.co.ndall.wordbrain.FoundWord;
 import uk.co.ndall.wordbrain.WordBrainSolver;
 import uk.co.ndall.wordbrain.WordbrainBoard;
-import uk.co.ndall.wordgames.WordTrie;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
 
 /**
  * Entry class for WordBrain-CLI. Asks for WordBrain puzzles on the commandline and solves them.
@@ -39,17 +40,16 @@ public class Main {
 	 * @param args Not used.
 	 * @throws IOException There was a problem reading words from the dictionary file.
 	 */
-	public static void main(String[] args) throws IOException {
-		WordTrie dict;
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		WordBrainSolver solver;
+
 
 		// Load valid words into a prefix tree.
-		try (InputStream in = new Main().getClass().getResourceAsStream(DICT_FILENAME)) {
+		try (InputStream in = openWordList(args)) {
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-				dict = new WordTrie(br.lines());
+				solver = new WordBrainSolver(br.lines());
 			}
 		}
-
-		WordBrainSolver solver = new WordBrainSolver(dict);
 
 		try (Scanner reader = new Scanner(System.in)) {
 			Optional<Puzzle> puzzle = getPuzzle(reader);
@@ -62,6 +62,15 @@ public class Main {
 				PrintSolutions(solutions);
 				puzzle = getPuzzle(reader);
 			}
+		}
+	}
+
+	private static InputStream openWordList(String[] cmdline) throws IOException, ClassNotFoundException {
+
+		if (cmdline.length > 0) {
+			return Files.newInputStream(Paths.get(cmdline[0]));
+		} else {
+			return Main.class.getResourceAsStream(DICT_FILENAME);
 		}
 	}
 
@@ -97,7 +106,7 @@ public class Main {
 
 		while (true) {
 			String boardString = reader.nextLine().toLowerCase();
-			if (boardString.equals(EXIT.toLowerCase())) {
+			if (boardString.toLowerCase().equals(EXIT)) {
 				return Optional.empty();
 			}
 

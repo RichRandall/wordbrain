@@ -183,16 +183,21 @@ public class WordbrainBoard {
 	}
 
 	/**
-	 * Check whether this is a valid WordBrain board. Returns false if the board is not square, or if any characters are
-	 * not alphabetic.
+	 * Check whether this is a valid WordBrain board. Returns false if the rows are not of equal length, or if any
+	 * characters are not alphabetic.
 	 *
 	 * @return Whether the board is valid.
 	 */
 	public boolean isValid() {
-		// Check rows and columns of equal length
-		int yLen = board.length;
+		// Check rows equal length
+		if (board.length == 0) {
+			return false;
+		}
+		if (board[0].length == 0) {
+			return false;
+		}
 		for (char[] row : board) {
-			if (row.length != yLen) {
+			if (row.length != board[0].length) {
 				return false;
 			}
 		}
